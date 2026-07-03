@@ -95,7 +95,7 @@ h2 {
 .terminal {
   position: relative;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  grid-template-rows: auto minmax(0, 1fr) auto auto auto;
   height: calc(100vh - 29px);
   padding: 28px 0 20px;
 }
@@ -119,15 +119,9 @@ h2 {
   place-items: center;
 }
 
-.shell-hints {
-  display: grid;
-  justify-items: center;
-  gap: 12px;
-  padding-bottom: 48px;
-}
-
 .home-actions {
-  margin: 0;
+  margin: 0 0 48px;
+  text-align: center;
 }
 
 .pixel-logo {
