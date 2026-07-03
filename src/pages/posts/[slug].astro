@@ -239,6 +239,21 @@ const { Content } = await render(post);
       );
     }
 
+    function activateFocusedLink() {
+      if (focusPane !== "output") {
+        return false;
+      }
+
+      const target = getOutputCursorTargets()[outputCursorIndex];
+      const link = target?.querySelector("a[href]");
+      if (!link) {
+        return false;
+      }
+
+      window.location.href = link.href;
+      return true;
+    }
+
     function run(command) {
       if (command === ":q" || command === "q") {
         window.location.href = "/";
@@ -292,6 +307,12 @@ const { Content } = await render(post);
       }
 
       if (inputMode === "insert") {
+        return;
+      }
+
+      if (event.key === "Enter") {
+        event.preventDefault();
+        activateFocusedLink();
         return;
       }
 

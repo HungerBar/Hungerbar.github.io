@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 
 import {
@@ -150,4 +151,17 @@ test("filterPostsByTime supports compact date queries with latest year and month
   assert.deepEqual(filterPostsByTime(posts, "06月").map((post) => post.slug), [
     "astro-setup",
   ]);
+});
+
+test("long-form sample post exists for reader layout checks", () => {
+  const path = "src/content/posts/long-form-terminal-blog.md";
+  assert.equal(existsSync(path), true);
+
+  const content = readFileSync(path, "utf8");
+  assert.match(content, /title: "A Long Walk Through a Small Terminal Blog"/);
+  assert.match(content, /writing\/notes/);
+  assert.match(content, /tech\/blog/);
+  assert.match(content, /life\/reading/);
+  assert.match(content, /https:\/\/docs\.astro\.build/);
+  assert.ok(content.split(/\s+/).length > 1200);
 });

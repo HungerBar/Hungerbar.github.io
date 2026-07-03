@@ -179,6 +179,22 @@ const latestDate = shellPosts[0]?.date ?? "";
       }
     }
 
+    function activateFocusedLink() {
+      if (focusPane !== "output") {
+        return false;
+      }
+
+      const target = getOutputCursorTargets()[outputCursorIndex];
+      const link = target?.querySelector("a[href]");
+      if (!link) {
+        return false;
+      }
+
+      saveShellState();
+      window.location.href = link.href;
+      return true;
+    }
+
     function echo(command) {
       line(`~/blog $ ${command}`, "echo");
     }
@@ -651,6 +667,12 @@ const latestDate = shellPosts[0]?.date ?? "";
       }
 
       if (inputMode === "insert") {
+        return;
+      }
+
+      if (event.key === "Enter") {
+        event.preventDefault();
+        activateFocusedLink();
         return;
       }
 

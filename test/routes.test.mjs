@@ -90,6 +90,22 @@ test("home post links and open command share navigation while preserving shell s
   assert.equal(homePage.includes("latestResults = state.resultSlugs"), true);
 });
 
+test("upper content links can be opened with Enter in normal mode", () => {
+  const homePage = readFileSync("src/pages/index.astro", "utf8");
+  const postPage = readFileSync("src/pages/posts/[slug].astro", "utf8");
+
+  assert.equal(homePage.includes("activateFocusedLink"), true);
+  assert.equal(postPage.includes("activateFocusedLink"), true);
+  assert.equal(homePage.includes('event.key === "Enter"'), true);
+  assert.equal(postPage.includes('event.key === "Enter"'), true);
+  assert.equal(homePage.includes('focusPane !== "output"'), true);
+  assert.equal(postPage.includes('focusPane !== "output"'), true);
+  assert.equal(homePage.includes('querySelector("a[href]")'), true);
+  assert.equal(postPage.includes('querySelector("a[href]")'), true);
+  assert.equal(homePage.includes("saveShellState()"), true);
+  assert.equal(postPage.includes("window.location.href = link.href"), true);
+});
+
 test("post shell supports normal and insert keyboard modes", () => {
   const postPage = readFileSync("src/pages/posts/[slug].astro", "utf8");
 
