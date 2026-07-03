@@ -17,3 +17,20 @@ test("wrangler config deploys the built static assets without Astro auto-configu
   assert.match(config, /"assets": \{/);
   assert.match(config, /"directory": "\.\/dist"/);
 });
+
+test("Astro is configured for the GitHub Pages user site", () => {
+  const config = readFileSync("astro.config.mjs", "utf8");
+
+  assert.match(config, /site: "https:\/\/hungerbar\.github\.io"/);
+  assert.doesNotMatch(config, /base:/);
+});
+
+test("GitHub Pages workflow builds and deploys the Astro site", () => {
+  assert.equal(existsSync(".github/workflows/deploy.yml"), true);
+
+  const workflow = readFileSync(".github/workflows/deploy.yml", "utf8");
+  assert.match(workflow, /uses: withastro\/action@v6/);
+  assert.match(workflow, /uses: actions\/deploy-pages@v5/);
+  assert.match(workflow, /pages: write/);
+  assert.match(workflow, /id-token: write/);
+});
