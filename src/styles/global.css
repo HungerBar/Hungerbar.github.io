@@ -101,17 +101,14 @@ h2 {
 }
 
 .resume-link {
-  position: absolute;
-  top: 18px;
-  right: 0;
   border: 1px solid var(--line);
   padding: 2px 8px;
-  color: var(--muted);
+  color: var(--accent);
   font-size: 0.85rem;
 }
 
 .resume-link:hover {
-  color: var(--text);
+  color: var(--inverse);
   text-decoration: none;
 }
 
@@ -119,6 +116,10 @@ h2 {
   display: grid;
   min-height: 48vh;
   place-items: center;
+}
+
+.home-actions {
+  margin: 14px 0 0;
 }
 
 .pixel-logo {

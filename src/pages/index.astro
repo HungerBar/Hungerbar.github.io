@@ -42,8 +42,6 @@ const latestDate = shellPosts[0]?.date ?? "";
 
 <BaseLayout title="Blog" section="shell">
   <section class="terminal" data-terminal>
-    <a class="resume-link" href="/resume/">resume</a>
-
     <div class="home-stage" data-home-stage>
       <pre class="pixel-logo" aria-label="Hungerbar">
 █   █ █   █ █   █  ███  █████ ████  ████   ███  ████
@@ -52,6 +50,9 @@ const latestDate = shellPosts[0]?.date ?? "";
 █   █ █   █ █  ██ █  ██ █     █  █  █   █ █   █ █  █
 █   █  ███  █   █  ███  █████ █   █ ████  █   █ █   █
       </pre>
+      <p class="home-actions">
+        <a class="resume-link" href="/resume/">resume</a>
+      </p>
     </div>
 
     <div class="terminal-output" data-output tabindex="0"></div>
@@ -102,6 +103,7 @@ const latestDate = shellPosts[0]?.date ?? "";
       ["tags", "show the nested tag tree"],
       ["tag <path>", "show posts under a tag, e.g. tag tech/ai/agent"],
       ["open <number>", "open a post in vim-style reader. Run recent, search, or tag first to choose a numbered result."],
+      ["resume", "open the resume page"],
       ["clear", "clear terminal output"],
     ];
     const commandNames = commands.map(([command]) => command.split(" ")[0]);
@@ -819,6 +821,11 @@ const latestDate = shellPosts[0]?.date ?? "";
       const [name, ...rest] = command.split(/\s+/);
       const arg = rest.join(" ");
 
+      if (name.toLowerCase() === "open" && arg.toLowerCase() === "resume") {
+        window.location.href = "/resume/";
+        return;
+      }
+
       switch (name.toLowerCase()) {
         case "help":
           printHelp();
@@ -840,6 +847,9 @@ const latestDate = shellPosts[0]?.date ?? "";
           break;
         case "tag":
           printTag(arg);
+          break;
+        case "resume":
+          window.location.href = "/resume/";
           break;
         case "open": {
           const index = Number.parseInt(arg, 10) - 1;

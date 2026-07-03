@@ -9,10 +9,23 @@ test("non-post browsing pages are not exposed as routes", () => {
 
 test("home page exposes a small resume button", () => {
   const homePage = readFileSync("src/pages/index.astro", "utf8");
+  const styles = readFileSync("src/styles/global.css", "utf8");
 
   assert.equal(homePage.includes('class="resume-link"'), true);
   assert.equal(homePage.includes('href="/resume/"'), true);
   assert.equal(homePage.includes("resume"), true);
+  assert.equal(homePage.indexOf('aria-label="Hungerbar"') < homePage.indexOf('class="resume-link"'), true);
+  assert.equal(styles.includes(".home-actions"), true);
+  assert.equal(styles.includes(".resume-link"), true);
+  assert.equal(styles.includes("color: var(--accent)"), true);
+});
+
+test("home shell opens resume by command", () => {
+  const homePage = readFileSync("src/pages/index.astro", "utf8");
+
+  assert.equal(homePage.includes('["resume", "open the resume page"]'), true);
+  assert.equal(homePage.includes('name.toLowerCase() === "open" && arg.toLowerCase() === "resume"'), true);
+  assert.equal(homePage.includes('window.location.href = "/resume/"'), true);
 });
 
 test("resume page has a blog return button and shell quit command", () => {
