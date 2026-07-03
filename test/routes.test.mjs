@@ -14,13 +14,14 @@ test("home page exposes a small resume button", () => {
   assert.equal(homePage.includes('class="resume-link"'), true);
   assert.equal(homePage.includes('href="/resume/"'), true);
   assert.equal(homePage.includes("resume"), true);
-  assert.equal(homePage.indexOf('aria-label="Hungerbar"') < homePage.indexOf('class="resume-link"'), true);
+  assert.equal(homePage.indexOf('class="terminal-output"') < homePage.indexOf('class="resume-link"'), true);
+  assert.equal(homePage.indexOf('class="resume-link"') < homePage.indexOf("type `help` to list commands"), true);
   assert.equal(styles.includes(".home-actions"), true);
   assert.equal(styles.includes(".resume-link"), true);
   assert.equal(styles.includes("color: var(--accent)"), true);
   assert.equal(styles.includes("font-size: 1.1rem"), true);
   assert.equal(styles.includes("font-weight: 700"), true);
-  assert.equal(styles.includes("margin: 56px 0 0"), true);
+  assert.equal(styles.includes("margin: 0 0 12px"), true);
 });
 
 test("home shell opens resume by command", () => {
