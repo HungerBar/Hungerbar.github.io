@@ -210,9 +210,7 @@ h2 {
 }
 
 .focus-ring {
-  outline: 2px solid Highlight;
-  outline-offset: 24px;
-  box-shadow: 0 0 0 10px var(--bg);
+  box-shadow: inset 4px 0 0 Highlight, inset -4px 0 0 Highlight;
 }
 
 .command-entry {
@@ -279,11 +277,11 @@ body[data-input-mode="visual"] .terminal-input input {
 
 body[data-input-mode="normal"] .terminal-input,
 body[data-input-mode="visual"] .terminal-input {
-  border-color: var(--text);
+  box-shadow: inset 3px 0 0 var(--text), inset -3px 0 0 var(--text);
 }
 
 .terminal-input:focus-within {
-  border-color: var(--text);
+  box-shadow: inset 3px 0 0 var(--text), inset -3px 0 0 var(--text);
 }
 
 .page,
@@ -419,9 +417,7 @@ body[data-input-mode="visual"] .terminal-input {
 .reader-frame.focus-ring,
 .terminal-output.focus-ring,
 .terminal-input.focus-ring {
-  outline: 2px solid Highlight;
-  outline-offset: 24px;
-  box-shadow: 0 0 0 10px var(--bg);
+  box-shadow: inset 4px 0 0 Highlight, inset -4px 0 0 Highlight;
 }
 
 .visual-selection {

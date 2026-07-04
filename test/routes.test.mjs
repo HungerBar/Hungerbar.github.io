@@ -434,8 +434,11 @@ test("focus ring is transient on output and shell focus changes", () => {
   assert.equal(postPage.includes("}, 700);"), true);
   assert.equal(styles.includes(".focus-ring"), true);
   assert.equal(styles.includes(".article.focus-ring"), true);
-  assert.equal(styles.includes("outline-offset: 24px"), true);
-  assert.equal(styles.includes("box-shadow: 0 0 0 10px var(--bg)"), true);
+  assert.equal(styles.includes("outline: 2px solid Highlight"), false);
+  assert.equal(styles.includes("outline-offset: 24px"), false);
+  assert.equal(styles.includes("box-shadow: inset 4px 0 0 Highlight, inset -4px 0 0 Highlight"), true);
+  assert.equal(styles.includes("box-shadow: inset 3px 0 0 var(--text), inset -3px 0 0 var(--text)"), true);
+  assert.equal(styles.includes('body[data-input-mode="normal"] .terminal-input,\nbody[data-input-mode="visual"] .terminal-input {\n  border-color: var(--text);'), false);
   assert.equal(styles.includes("padding: 22px 18px 14px"), true);
   assert.equal(styles.includes("padding: 34px 18px 64px"), true);
   assert.equal(homePage.includes("function focusInput(options = {})"), true);
