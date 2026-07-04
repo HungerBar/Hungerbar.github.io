@@ -429,10 +429,12 @@ test("focus ring is transient on output and shell focus changes", () => {
 
   assert.equal(homePage.includes("flashFocusRing"), true);
   assert.equal(postPage.includes("flashFocusRing"), true);
-  assert.equal(homePage.includes("setTimeout"), true);
-  assert.equal(postPage.includes("setTimeout"), true);
+  assert.equal(homePage.includes("}, 700);"), true);
+  assert.equal(postPage.includes("}, 700);"), true);
   assert.equal(styles.includes(".focus-ring"), true);
   assert.equal(styles.includes(".article.focus-ring"), true);
+  assert.equal(styles.includes("outline-offset: 14px"), true);
+  assert.equal(styles.includes("box-shadow: 0 0 0 6px var(--bg)"), true);
   assert.equal(homePage.includes("function focusInput(options = {})"), true);
   assert.equal(postPage.includes("function focusInput(options = {})"), true);
   assert.equal(homePage.includes('setInputMode("insert", options)'), true);

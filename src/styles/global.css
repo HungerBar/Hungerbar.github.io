@@ -211,7 +211,8 @@ h2 {
 
 .focus-ring {
   outline: 2px solid Highlight;
-  outline-offset: 8px;
+  outline-offset: 14px;
+  box-shadow: 0 0 0 6px var(--bg);
 }
 
 .command-entry {
@@ -419,7 +420,8 @@ body[data-input-mode="visual"] .terminal-input {
 .terminal-output.focus-ring,
 .terminal-input.focus-ring {
   outline: 2px solid Highlight;
-  outline-offset: 8px;
+  outline-offset: 14px;
+  box-shadow: 0 0 0 6px var(--bg);
 }
 
 .visual-selection {
