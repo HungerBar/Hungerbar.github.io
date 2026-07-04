@@ -252,16 +252,16 @@ test("shell insert mode recovers focus when i is pressed outside input", () => {
   }
 });
 
-test("typing i in input normal mode enters insert without swallowing the key", () => {
+test("typing i or a in input normal mode enters insert without typing the trigger key", () => {
   const homePage = readFileSync("src/pages/index.astro", "utf8");
   const postPage = readFileSync("src/pages/posts/[slug].astro", "utf8");
   const resumePage = readFileSync("src/pages/resume.astro", "utf8");
 
   for (const page of [homePage, postPage, resumePage]) {
-    assert.equal(page.includes("function insertInputText(text)"), true);
     assert.equal(page.includes('focusPane === "input" && document.activeElement === input'), true);
     assert.equal(page.includes('setInputMode("insert", { append: false });'), true);
-    assert.equal(page.includes('insertInputText(event.key)'), true);
+    assert.equal(page.includes("function insertInputText(text)"), false);
+    assert.equal(page.includes("insertInputText(event.key)"), false);
   }
 });
 
