@@ -218,6 +218,8 @@ const latestDate = shellPosts[0]?.date ?? "";
     }
 
     function setInputMode(nextMode, options = {}) {
+      const selectionStart = input.selectionStart ?? input.value.length;
+      const selectionEnd = input.selectionEnd ?? selectionStart;
       if (nextMode !== "visual") {
         clearVisualSelection();
       }
@@ -231,6 +233,8 @@ const latestDate = shellPosts[0]?.date ?? "";
       clearOutputCursor();
       if (options.append) {
         input.setSelectionRange(input.value.length, input.value.length);
+      } else {
+        input.setSelectionRange(selectionStart, selectionEnd);
       }
       updateCursorView();
     }
@@ -961,7 +965,7 @@ const latestDate = shellPosts[0]?.date ?? "";
       if (inputMode === "insert" && document.activeElement !== input) {
         if (event.key === "i") {
           event.preventDefault();
-          focusInput({ append: true });
+          focusInput({ append: false });
           return;
         }
       }
@@ -1027,7 +1031,7 @@ const latestDate = shellPosts[0]?.date ?? "";
         event.preventDefault();
         event.stopPropagation();
         moveCursor(1);
-        focusInput({ append: true });
+        focusInput({ append: false });
         return;
       }
 

@@ -54,6 +54,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     }
 
     function setInputMode(nextMode, options = {}) {
+      const selectionStart = input.selectionStart ?? input.value.length;
+      const selectionEnd = input.selectionEnd ?? selectionStart;
       inputMode = nextMode;
       document.body.dataset.inputMode = nextMode;
       updateModeIndicator();
@@ -62,6 +64,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       input.focus();
       if (options.append) {
         input.setSelectionRange(input.value.length, input.value.length);
+      } else {
+        input.setSelectionRange(selectionStart, selectionEnd);
       }
       updateCursorView();
     }
@@ -172,7 +176,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       if (inputMode === "insert" && document.activeElement !== input) {
         if (event.key === "i") {
           event.preventDefault();
-          focusInput({ append: true });
+          focusInput({ append: false });
           return;
         }
       }
@@ -198,7 +202,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         event.preventDefault();
         event.stopPropagation();
         moveCursor(1);
-        focusInput({ append: true });
+        focusInput({ append: false });
         return;
       }
 

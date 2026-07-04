@@ -248,7 +248,7 @@ test("shell insert mode recovers focus when i is pressed outside input", () => {
 
   for (const page of [homePage, postPage, resumePage]) {
     assert.equal(page.includes('inputMode === "insert" && document.activeElement !== input'), true);
-    assert.equal(page.includes("focusInput({ append: true })"), true);
+    assert.equal(page.includes("focusInput({ append: false })"), true);
   }
 });
 
@@ -259,7 +259,7 @@ test("typing i or a in input normal mode enters insert without typing the trigge
   const iBranchPattern =
     /if \(event\.key === "i"\) \{\s+if \(focusPane === "input" && document\.activeElement === input\) \{\s+event\.preventDefault\(\);\s+event\.stopPropagation\(\);\s+focusInput\(\{ append: false \}\);/;
   const aBranchPattern =
-    /if \(event\.key === "a"\) \{\s+event\.preventDefault\(\);\s+event\.stopPropagation\(\);\s+moveCursor\(1\);\s+focusInput\(\{ append: true \}\);/;
+    /if \(event\.key === "a"\) \{\s+event\.preventDefault\(\);\s+event\.stopPropagation\(\);\s+moveCursor\(1\);\s+focusInput\(\{ append: false \}\);/;
 
   for (const page of [homePage, postPage, resumePage]) {
     assert.equal(page.includes('focusPane === "input" && document.activeElement === input'), true);
@@ -267,6 +267,18 @@ test("typing i or a in input normal mode enters insert without typing the trigge
     assert.equal(aBranchPattern.test(page), true);
     assert.equal(page.includes("function insertInputText(text)"), false);
     assert.equal(page.includes("insertInputText(event.key)"), false);
+  }
+});
+
+test("insert mode preserves command cursor unless append is explicitly requested", () => {
+  const homePage = readFileSync("src/pages/index.astro", "utf8");
+  const postPage = readFileSync("src/pages/posts/[slug].astro", "utf8");
+  const resumePage = readFileSync("src/pages/resume.astro", "utf8");
+
+  for (const page of [homePage, postPage, resumePage]) {
+    assert.equal(page.includes("const selectionStart = input.selectionStart ?? input.value.length"), true);
+    assert.equal(page.includes("const selectionEnd = input.selectionEnd ?? selectionStart"), true);
+    assert.equal(page.includes("input.setSelectionRange(selectionStart, selectionEnd)"), true);
   }
 });
 
@@ -336,9 +348,7 @@ test("focus ring is transient on output and shell focus changes", () => {
   assert.equal(homePage.includes('setInputMode("insert", options)'), true);
   assert.equal(postPage.includes('setInputMode("insert", options)'), true);
   assert.equal(homePage.includes('focusInput({ append: false })'), true);
-  assert.equal(homePage.includes('focusInput({ append: true })'), true);
   assert.equal(postPage.includes('focusInput({ append: false })'), true);
-  assert.equal(postPage.includes('focusInput({ append: true })'), true);
 });
 
 test("upper content keeps a block cursor when focused in normal mode", () => {

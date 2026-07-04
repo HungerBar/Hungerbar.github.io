@@ -86,6 +86,8 @@ const { Content } = await render(post);
     }
 
     function setInputMode(nextMode, options = {}) {
+      const selectionStart = input.selectionStart ?? input.value.length;
+      const selectionEnd = input.selectionEnd ?? selectionStart;
       if (nextMode !== "visual") {
         clearVisualSelection();
       }
@@ -99,6 +101,8 @@ const { Content } = await render(post);
       clearOutputCursor();
       if (options.append) {
         input.setSelectionRange(input.value.length, input.value.length);
+      } else {
+        input.setSelectionRange(selectionStart, selectionEnd);
       }
       updateCursorView();
     }
@@ -572,7 +576,7 @@ const { Content } = await render(post);
       if (inputMode === "insert" && document.activeElement !== input) {
         if (event.key === "i") {
           event.preventDefault();
-          focusInput({ append: true });
+          focusInput({ append: false });
           return;
         }
       }
@@ -638,7 +642,7 @@ const { Content } = await render(post);
         event.preventDefault();
         event.stopPropagation();
         moveCursor(1);
-        focusInput({ append: true });
+        focusInput({ append: false });
         return;
       }
 
