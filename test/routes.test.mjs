@@ -146,6 +146,18 @@ test("home page starts with centered pixel mark and shell hint above input", () 
   assert.equal(styles.includes("font-size: clamp(0.72rem, 1.8vw, 1.35rem)"), true);
 });
 
+test("home terminal output scrolls without pushing the bottom shell", () => {
+  const styles = readFileSync("src/styles/global.css", "utf8");
+
+  assert.equal(styles.includes(".terminal {\n  position: relative;\n  display: grid;"), true);
+  assert.equal(styles.includes("overflow: hidden;"), true);
+  assert.equal(styles.includes(".terminal-output {\n  min-height: 0;\n  height: 100%;\n  max-height: 100%;"), true);
+  assert.equal(styles.includes("overflow-y: auto"), true);
+  assert.equal(styles.includes("overscroll-behavior: contain"), true);
+  assert.equal(styles.includes("scrollbar-gutter: stable"), true);
+}
+);
+
 test("home default affordances collapse after commands and return on clear", () => {
   const homePage = readFileSync("src/pages/index.astro", "utf8");
 
