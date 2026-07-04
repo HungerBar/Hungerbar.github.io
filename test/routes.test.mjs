@@ -132,13 +132,17 @@ test("home page starts with centered pixel mark and shell hint above input", () 
   assert.equal(styles.includes("font-size: clamp(0.72rem, 1.8vw, 1.35rem)"), true);
 });
 
-test("home pixel mark collapses after commands and returns on clear", () => {
+test("home default affordances collapse after commands and return on clear", () => {
   const homePage = readFileSync("src/pages/index.astro", "utf8");
 
   assert.equal(homePage.includes("dismissHomeStage"), true);
   assert.equal(homePage.includes("restoreHomeStage"), true);
+  assert.equal(homePage.includes("data-home-actions"), true);
+  assert.equal(homePage.includes('const homeActions = document.querySelector("[data-home-actions]")'), true);
   assert.equal(homePage.includes("homeStage.hidden = true"), true);
   assert.equal(homePage.includes("homeStage.hidden = false"), true);
+  assert.equal(homePage.includes("homeActions.hidden = true"), true);
+  assert.equal(homePage.includes("homeActions.hidden = false"), true);
 });
 
 test("home post links and open command share navigation while preserving shell state", () => {

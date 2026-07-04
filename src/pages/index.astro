@@ -54,7 +54,7 @@ const latestDate = shellPosts[0]?.date ?? "";
 
     <div class="terminal-output" data-output tabindex="0"></div>
 
-    <p class="home-actions">
+    <p class="home-actions" data-home-actions>
       <a class="resume-link" href="/resume/">resume</a>
     </p>
 
@@ -82,6 +82,7 @@ const latestDate = shellPosts[0]?.date ?? "";
     const prompt = document.querySelector("[data-prompt]");
     const normalCommandView = document.querySelector("[data-normal-command-view]");
     const homeStage = document.querySelector("[data-home-stage]");
+    const homeActions = document.querySelector("[data-home-actions]");
     let latestResults = [];
     let mode = "shell";
     let inputMode = "insert";
@@ -619,11 +620,17 @@ const latestDate = shellPosts[0]?.date ?? "";
       if (homeStage) {
         homeStage.hidden = true;
       }
+      if (homeActions) {
+        homeActions.hidden = true;
+      }
     }
 
     function restoreHomeStage() {
       if (homeStage) {
         homeStage.hidden = false;
+      }
+      if (homeActions) {
+        homeActions.hidden = false;
       }
     }
 
