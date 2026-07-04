@@ -1013,9 +1013,11 @@ const latestDate = shellPosts[0]?.date ?? "";
       if (event.key === "i") {
         if (focusPane === "input" && document.activeElement === input) {
           event.preventDefault();
-          setInputMode("insert", { append: false });
+          event.stopPropagation();
+          focusInput({ append: false });
         } else {
           event.preventDefault();
+          event.stopPropagation();
           focusInput({ append: false });
         }
         return;
@@ -1023,6 +1025,7 @@ const latestDate = shellPosts[0]?.date ?? "";
 
       if (event.key === "a") {
         event.preventDefault();
+        event.stopPropagation();
         moveCursor(1);
         focusInput({ append: true });
         return;

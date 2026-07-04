@@ -256,10 +256,15 @@ test("typing i or a in input normal mode enters insert without typing the trigge
   const homePage = readFileSync("src/pages/index.astro", "utf8");
   const postPage = readFileSync("src/pages/posts/[slug].astro", "utf8");
   const resumePage = readFileSync("src/pages/resume.astro", "utf8");
+  const iBranchPattern =
+    /if \(event\.key === "i"\) \{\s+if \(focusPane === "input" && document\.activeElement === input\) \{\s+event\.preventDefault\(\);\s+event\.stopPropagation\(\);\s+focusInput\(\{ append: false \}\);/;
+  const aBranchPattern =
+    /if \(event\.key === "a"\) \{\s+event\.preventDefault\(\);\s+event\.stopPropagation\(\);\s+moveCursor\(1\);\s+focusInput\(\{ append: true \}\);/;
 
   for (const page of [homePage, postPage, resumePage]) {
     assert.equal(page.includes('focusPane === "input" && document.activeElement === input'), true);
-    assert.equal(page.includes('setInputMode("insert", { append: false });'), true);
+    assert.equal(iBranchPattern.test(page), true);
+    assert.equal(aBranchPattern.test(page), true);
     assert.equal(page.includes("function insertInputText(text)"), false);
     assert.equal(page.includes("insertInputText(event.key)"), false);
   }
