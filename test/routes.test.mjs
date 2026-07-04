@@ -370,6 +370,24 @@ test("normal mode keeps command inputs focusable for cursor movement", () => {
   assert.equal(postPage.includes("updateCursorView"), true);
 });
 
+test("normal and visual modes suppress unhandled printable input", () => {
+  const homePage = readFileSync("src/pages/index.astro", "utf8");
+  const postPage = readFileSync("src/pages/posts/[slug].astro", "utf8");
+  const resumePage = readFileSync("src/pages/resume.astro", "utf8");
+
+  for (const page of [homePage, postPage, resumePage]) {
+    assert.equal(page.includes("function suppressPrintableNormalInput(event)"), true);
+    assert.equal(page.includes("event.key.length === 1"), true);
+    assert.equal(page.includes("!event.metaKey && !event.altKey && !event.ctrlKey"), true);
+    assert.equal(page.includes("suppressPrintableNormalInput(event);"), true);
+  }
+
+  for (const page of [homePage, postPage]) {
+    assert.equal(page.includes("if (inputMode === \"visual\")"), true);
+    assert.equal(page.includes("suppressPrintableNormalInput(event);\n        return;\n      }\n\n      if (event.key === \"v\")"), true);
+  }
+});
+
 test("focus ring is transient on output and shell focus changes", () => {
   const homePage = readFileSync("src/pages/index.astro", "utf8");
   const postPage = readFileSync("src/pages/posts/[slug].astro", "utf8");

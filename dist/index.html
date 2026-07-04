@@ -904,6 +904,12 @@ const latestDate = "2026-07-03";
       handleKeyboard(event);
     });
 
+    function suppressPrintableNormalInput(event) {
+      if (event.key.length === 1 && !event.metaKey && !event.altKey && !event.ctrlKey) {
+        event.preventDefault();
+      }
+    }
+
     function handleKeyboard(event) {
       if (event.ctrlKey && event.key === "j") {
         event.preventDefault();
@@ -970,6 +976,7 @@ const latestDate = "2026-07-03";
           return;
         }
 
+        suppressPrintableNormalInput(event);
         return;
       }
 
@@ -1086,6 +1093,8 @@ const latestDate = "2026-07-03";
           output.scrollTop = output.scrollHeight;
         }
       }
+
+      suppressPrintableNormalInput(event);
     }
 
     function completeInput() {

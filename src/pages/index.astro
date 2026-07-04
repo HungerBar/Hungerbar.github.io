@@ -974,6 +974,12 @@ const latestDate = shellPosts[0]?.date ?? "";
       handleKeyboard(event);
     });
 
+    function suppressPrintableNormalInput(event) {
+      if (event.key.length === 1 && !event.metaKey && !event.altKey && !event.ctrlKey) {
+        event.preventDefault();
+      }
+    }
+
     function handleKeyboard(event) {
       if (event.ctrlKey && event.key === "j") {
         event.preventDefault();
@@ -1040,6 +1046,7 @@ const latestDate = shellPosts[0]?.date ?? "";
           return;
         }
 
+        suppressPrintableNormalInput(event);
         return;
       }
 
@@ -1156,6 +1163,8 @@ const latestDate = shellPosts[0]?.date ?? "";
           output.scrollTop = output.scrollHeight;
         }
       }
+
+      suppressPrintableNormalInput(event);
     }
 
     function completeInput() {

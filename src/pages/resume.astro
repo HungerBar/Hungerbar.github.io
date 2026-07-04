@@ -166,6 +166,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       handleKeyboard(event);
     });
 
+    function suppressPrintableNormalInput(event) {
+      if (event.key.length === 1 && !event.metaKey && !event.altKey && !event.ctrlKey) {
+        event.preventDefault();
+      }
+    }
+
     function handleKeyboard(event) {
       if (event.ctrlKey && event.key === "j") {
         event.preventDefault();
@@ -247,6 +253,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         event.preventDefault();
         moveCursorToColumn(input.value.length - 1);
       }
+
+      suppressPrintableNormalInput(event);
     }
 
     setInputMode("insert");
