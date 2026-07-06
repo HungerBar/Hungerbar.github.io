@@ -113,7 +113,7 @@ test("post pages expose giscus comments only on article pages", () => {
   assert.equal(postPage.includes('"R_kgDOTMGYmw"'), true);
   assert.equal(postPage.includes('"Announcements"'), true);
   assert.equal(postPage.includes('"DIC_kwDOTMGYm84DAl8N"'), true);
-  assert.equal(postPage.includes('theme: import.meta.env.PUBLIC_GISCUS_THEME ?? "preferred_color_scheme"'), true);
+  assert.equal(postPage.includes('theme: import.meta.env.PUBLIC_GISCUS_THEME ?? "transparent_dark"'), true);
   assert.equal(postPage.includes('lang: import.meta.env.PUBLIC_GISCUS_LANG ?? "en"'), true);
   assert.equal(homePage.includes('data-comments-provider="giscus"'), false);
   assert.equal(resumePage.includes('data-comments-provider="giscus"'), false);
@@ -157,6 +157,11 @@ test("post reader keeps content in an independent block above the shell", () => 
   assert.equal(styles.includes("margin-left: calc(50% - 50vw)"), true);
   assert.equal(styles.includes(".reader-layout {\n  display: grid;\n  grid-template-rows: minmax(0, 1fr) auto;\n  height: calc(100vh - 29px);\n  padding: 28px 0 20px;\n}"), true);
   assert.equal(styles.includes("max-width: min(112ch, 100%)"), true);
+  assert.equal(styles.includes(".reader-layout:not(.resume-layout) .article {\n  max-width: min(112ch, 100%);\n  margin: 0 auto;"), true);
+  assert.equal(styles.includes(".post-comments {\n  max-width: min(112ch, 100%);\n  margin: 0 auto;"), true);
+  assert.equal(postPage.includes('theme: import.meta.env.PUBLIC_GISCUS_THEME ?? "transparent_dark"'), true);
+  assert.equal(styles.includes(".giscus-frame"), true);
+  assert.equal(styles.includes("background: var(--bg)"), true);
   assert.equal(styles.includes(".article blockquote"), true);
   assert.equal(styles.includes("border-left: 4px solid var(--line)"), true);
   assert.equal(styles.includes("height: auto"), true);

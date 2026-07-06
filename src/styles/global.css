@@ -387,6 +387,7 @@ body[data-input-mode="visual"] .terminal-input {
 
 .reader-layout:not(.resume-layout) .article {
   max-width: min(112ch, 100%);
+  margin: 0 auto;
 }
 
 .reader-frame .article {
@@ -396,6 +397,7 @@ body[data-input-mode="visual"] .terminal-input {
 
 .post-comments {
   max-width: min(112ch, 100%);
+  margin: 0 auto;
   padding: 0 18px 56px;
 }
 
@@ -406,10 +408,13 @@ body[data-input-mode="visual"] .terminal-input {
 .comments-empty {
   border: 1px solid var(--line);
   padding: 16px;
+  background: var(--bg);
   color: var(--muted);
 }
 
-.giscus {
+.giscus,
+.giscus-frame {
+  background: var(--bg);
   color-scheme: dark;
 }
 
