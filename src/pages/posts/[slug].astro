@@ -17,6 +17,27 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+const giscusConfig = {
+  repo: import.meta.env.PUBLIC_GISCUS_REPO ?? "HungerBar/Hungerbar.github.io",
+  repoId: import.meta.env.PUBLIC_GISCUS_REPO_ID ?? "R_kgDOTMGYmw",
+  category: import.meta.env.PUBLIC_GISCUS_CATEGORY ?? "Announcements",
+  categoryId: import.meta.env.PUBLIC_GISCUS_CATEGORY_ID ?? "DIC_kwDOTMGYm84DAl8N",
+  mapping: import.meta.env.PUBLIC_GISCUS_MAPPING ?? "pathname",
+  strict: import.meta.env.PUBLIC_GISCUS_STRICT ?? "0",
+  reactionsEnabled: import.meta.env.PUBLIC_GISCUS_REACTIONS_ENABLED ?? "1",
+  emitMetadata: import.meta.env.PUBLIC_GISCUS_EMIT_METADATA ?? "0",
+  inputPosition: import.meta.env.PUBLIC_GISCUS_INPUT_POSITION ?? "bottom",
+  theme: import.meta.env.PUBLIC_GISCUS_THEME ?? "preferred_color_scheme",
+  lang: import.meta.env.PUBLIC_GISCUS_LANG ?? "en",
+  loading: import.meta.env.PUBLIC_GISCUS_LOADING ?? "lazy",
+};
+const hasGiscusConfig = Boolean(
+  giscusConfig.repo &&
+  giscusConfig.repoId &&
+  giscusConfig.category &&
+  giscusConfig.categoryId,
+);
+const shouldRenderComments = hasGiscusConfig || import.meta.env.DEV;
 ---
 
 <BaseLayout title={post.data.title} description={post.data.excerpt}>
@@ -40,6 +61,45 @@ const { Content } = await render(post);
 
         <Content />
       </article>
+
+      {
+        shouldRenderComments && (
+          <section class="post-comments" aria-label="Comments">
+            <p class="command-label">~/blog/posts/{post.id}.comments</p>
+            {
+              hasGiscusConfig ? (
+                <>
+                  <div class="giscus" data-comments-provider="giscus"></div>
+                  <script
+                    is:inline
+                    src="https://giscus.app/client.js"
+                    data-repo={giscusConfig.repo}
+                    data-repo-id={giscusConfig.repoId}
+                    data-category={giscusConfig.category}
+                    data-category-id={giscusConfig.categoryId}
+                    data-mapping={giscusConfig.mapping}
+                    data-strict={giscusConfig.strict}
+                    data-reactions-enabled={giscusConfig.reactionsEnabled}
+                    data-emit-metadata={giscusConfig.emitMetadata}
+                    data-input-position={giscusConfig.inputPosition}
+                    data-theme={giscusConfig.theme}
+                    data-lang={giscusConfig.lang}
+                    data-loading={giscusConfig.loading}
+                    crossorigin="anonymous"
+                    async
+                  ></script>
+                </>
+              ) : (
+                <p class="comments-empty" data-comments-provider="giscus">
+                  Configure PUBLIC_GISCUS_REPO, PUBLIC_GISCUS_REPO_ID,
+                  PUBLIC_GISCUS_CATEGORY, and PUBLIC_GISCUS_CATEGORY_ID to
+                  enable comments.
+                </p>
+              )
+            }
+          </section>
+        )
+      }
     </div>
 
     <p class="post-shell-hint">type :q to quit (Insert mod).</p>

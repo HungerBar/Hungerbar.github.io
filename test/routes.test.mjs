@@ -97,6 +97,28 @@ test("post pages render tags as text only", () => {
   assert.equal(postPage.includes('class="tag"'), true);
 });
 
+test("post pages expose giscus comments only on article pages", () => {
+  const postPage = readFileSync("src/pages/posts/[slug].astro", "utf8");
+  const homePage = readFileSync("src/pages/index.astro", "utf8");
+  const resumePage = readFileSync("src/pages/resume.astro", "utf8");
+
+  assert.equal(postPage.includes('class="post-comments"'), true);
+  assert.equal(postPage.includes('data-comments-provider="giscus"'), true);
+  assert.equal(postPage.includes("https://giscus.app/client.js"), true);
+  assert.equal(postPage.includes("PUBLIC_GISCUS_REPO"), true);
+  assert.equal(postPage.includes("PUBLIC_GISCUS_REPO_ID"), true);
+  assert.equal(postPage.includes("PUBLIC_GISCUS_CATEGORY"), true);
+  assert.equal(postPage.includes("PUBLIC_GISCUS_CATEGORY_ID"), true);
+  assert.equal(postPage.includes('"HungerBar/Hungerbar.github.io"'), true);
+  assert.equal(postPage.includes('"R_kgDOTMGYmw"'), true);
+  assert.equal(postPage.includes('"Announcements"'), true);
+  assert.equal(postPage.includes('"DIC_kwDOTMGYm84DAl8N"'), true);
+  assert.equal(postPage.includes('theme: import.meta.env.PUBLIC_GISCUS_THEME ?? "preferred_color_scheme"'), true);
+  assert.equal(postPage.includes('lang: import.meta.env.PUBLIC_GISCUS_LANG ?? "en"'), true);
+  assert.equal(homePage.includes('data-comments-provider="giscus"'), false);
+  assert.equal(resumePage.includes('data-comments-provider="giscus"'), false);
+});
+
 test("post pages expose a bottom shell with vim-style navigation", () => {
   const postPage = readFileSync("src/pages/posts/[slug].astro", "utf8");
 

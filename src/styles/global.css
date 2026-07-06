@@ -385,6 +385,25 @@ body[data-input-mode="visual"] .terminal-input {
   padding-bottom: 36px;
 }
 
+.post-comments {
+  max-width: min(92ch, 100%);
+  padding: 0 18px 56px;
+}
+
+.post-comments .command-label {
+  margin-bottom: 18px;
+}
+
+.comments-empty {
+  border: 1px solid var(--line);
+  padding: 16px;
+  color: var(--muted);
+}
+
+.giscus {
+  color-scheme: dark;
+}
+
 .resume-layout .reader-frame .article {
   padding-top: 20px;
 }
