@@ -419,6 +419,11 @@ body[data-input-mode="visual"] .terminal-input {
   color: var(--muted);
 }
 
+.post-shell-hint {
+  margin: 0 18px 10px;
+  color: var(--muted);
+}
+
 .post-command {
   padding: 22px 18px 14px;
   background: var(--bg);

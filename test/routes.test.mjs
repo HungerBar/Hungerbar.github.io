@@ -110,6 +110,9 @@ test("post pages expose a bottom shell with vim-style navigation", () => {
   assert.equal(postPage.includes("~/blog/posts/{post.id}.md >"), false);
   assert.equal(postPage.includes("post-command"), true);
   assert.equal(postPage.includes("reader-hint"), false);
+  assert.equal(postPage.includes('class="post-shell-hint"'), true);
+  assert.equal(postPage.includes("Insert mode: type :q to quit."), true);
+  assert.equal(postPage.indexOf('class="post-shell-hint"') < postPage.indexOf('class="terminal-input post-command"'), true);
   assert.equal(postPage.includes('command === ":q"'), true);
   assert.equal(postPage.includes('event.key === "j"'), true);
   assert.equal(postPage.includes('event.key === "k"'), true);
@@ -128,6 +131,7 @@ test("post reader keeps content in an independent block above the shell", () => 
   assert.equal(styles.includes(".reader-frame"), true);
   assert.equal(styles.includes("grid-template-rows: minmax(0, 1fr) auto"), true);
   assert.equal(styles.includes(".post-command"), true);
+  assert.equal(styles.includes(".post-shell-hint"), true);
   assert.equal(styles.includes("position: fixed"), false);
 }
 );
