@@ -25,9 +25,8 @@ test("home page exposes a small resume button", () => {
   assert.equal(styles.includes(".terminal-shell"), true);
   assert.equal(styles.includes(".resume-link"), true);
   assert.equal(styles.includes("color: var(--accent)"), true);
-  assert.equal(styles.includes("--accent: #5b5bd6"), true);
-  assert.equal(styles.includes("--accent-hover: #8f7bff"), true);
-  assert.equal(styles.includes("a:hover {\n  color: var(--accent-hover);"), true);
+  assert.equal(styles.includes("--accent: #ffffff"), true);
+  assert.equal(styles.includes("a:hover {\n  color: var(--inverse);"), true);
   assert.equal(styles.includes("font-size: 1.1rem"), true);
   assert.equal(styles.includes("font-weight: 700"), true);
   assert.equal(styles.includes("text-align: center"), true);
@@ -152,6 +151,7 @@ test("post reader keeps content in an independent block above the shell", () => 
   assert.equal(postPage.includes("readerFrame"), true);
   assert.equal(postPage.includes("readerFrame.scrollBy"), true);
   assert.equal(postPage.includes("readerFrame.scrollTo"), true);
+  assert.equal(postPage.includes('class="markdown-content"'), true);
   assert.equal(styles.includes(".reader-layout"), true);
   assert.equal(styles.includes(".reader-frame"), true);
   assert.equal(styles.includes("grid-template-rows: minmax(0, 1fr) auto"), true);
@@ -165,6 +165,14 @@ test("post reader keeps content in an independent block above the shell", () => 
   assert.equal(postPage.includes('theme: import.meta.env.PUBLIC_GISCUS_THEME ?? "transparent_dark"'), true);
   assert.equal(styles.includes(".giscus-frame"), true);
   assert.equal(styles.includes("background: var(--bg)"), true);
+  assert.equal(styles.includes(".markdown-content a {\n  color: #5b5bd6;"), true);
+  assert.equal(styles.includes(".markdown-content a:hover {\n  color: #8f7bff;"), true);
+  assert.equal(styles.includes(".article h1 {\n  margin-bottom: 18px;"), true);
+  assert.equal(styles.includes("font-size: 1.75rem"), true);
+  assert.equal(styles.includes(".article h2 {\n  margin: 42px 0 12px;"), true);
+  assert.equal(styles.includes("font-size: 1.25rem"), true);
+  assert.equal(styles.includes(".article h3 {\n  margin: 30px 0 10px;"), true);
+  assert.equal(styles.includes("font-size: 1.08rem"), true);
   assert.equal(styles.includes(".article blockquote"), true);
   assert.equal(styles.includes("border-left: 4px solid var(--line)"), true);
   assert.equal(styles.includes("height: auto"), true);
