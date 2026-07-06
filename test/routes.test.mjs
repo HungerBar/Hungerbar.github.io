@@ -48,8 +48,6 @@ test("resume page has a blog return button and shell quit command", () => {
   assert.equal(resumePage.includes("~/blog $ open resume"), false);
   assert.equal(resumePage.includes("~/blog/resume.md $"), true);
   assert.equal(resumePage.includes("~/blog/resume.md >"), false);
-  assert.equal(resumePage.includes("<h2>教育经历</h2>"), true);
-  assert.equal(resumePage.includes("<h2>项目</h2>"), true);
   assert.equal(resumePage.includes('data-resume-command-form'), true);
   assert.equal(resumePage.includes('data-resume-command-input'), true);
   assert.equal(resumePage.includes('setInputMode("insert")'), true);
@@ -57,6 +55,36 @@ test("resume page has a blog return button and shell quit command", () => {
   assert.equal(resumePage.includes('command === ":q"'), true);
   assert.equal(resumePage.includes("window.location.href = \"/\""), true);
   assert.equal(styles.includes(".resume-return"), true);
+});
+
+test("resume page renders editable markdown sections above the command shell", () => {
+  const resumePage = readFileSync("src/pages/resume.astro", "utf8");
+  const contentConfig = readFileSync("src/content.config.ts", "utf8");
+  const sectionPaths = [
+    "src/content/resume/profile.md",
+    "src/content/resume/education.md",
+    "src/content/resume/projects.md",
+    "src/content/resume/skills.md",
+  ];
+
+  for (const path of sectionPaths) {
+    assert.equal(existsSync(path), true);
+    const content = readFileSync(path, "utf8");
+    assert.match(content, /title:/);
+    assert.match(content, /order:/);
+  }
+
+  assert.equal(contentConfig.includes("const resume = defineCollection"), true);
+  assert.equal(contentConfig.includes('base: "./src/content/resume"'), true);
+  assert.equal(contentConfig.includes("export const collections = { posts, resume }"), true);
+  assert.equal(resumePage.includes('getCollection("resume")'), true);
+  assert.equal(resumePage.includes("render(section)"), true);
+  assert.equal(resumePage.includes("resumeSections"), true);
+  assert.equal(resumePage.includes("<section.Content />"), true);
+  assert.equal(resumePage.includes("<h2>{section.data.title}</h2>"), true);
+  assert.equal(resumePage.includes("<h2>教育经历</h2>"), false);
+  assert.equal(resumePage.includes("<h2>项目</h2>"), false);
+  assert.equal(resumePage.indexOf('data-resume-content') < resumePage.indexOf('data-resume-command-form'), true);
 });
 
 test("post pages render tags as text only", () => {

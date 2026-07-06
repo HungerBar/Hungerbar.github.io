@@ -1,5 +1,18 @@
 ---
+import { getCollection, render } from "astro:content";
+
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const resumeEntries = await getCollection("resume");
+const resumeSections = await Promise.all(
+  resumeEntries
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(async (section) => {
+      const { Content } = await render(section);
+
+      return { ...section, Content };
+    }),
+);
 ---
 
 <BaseLayout title="Resume" description="Personal resume." section="resume">
@@ -12,13 +25,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <h1>简历</h1>
         </header>
 
-        <section>
-          <h2>教育经历</h2>
-        </section>
-
-        <section>
-          <h2>项目</h2>
-        </section>
+        {
+          resumeSections.map((section) => (
+            <section>
+              <h2>{section.data.title}</h2>
+              <section.Content />
+            </section>
+          ))
+        }
       </article>
     </div>
 
